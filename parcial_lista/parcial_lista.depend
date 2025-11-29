@@ -1,0 +1,29 @@
+# depslib dependency file v1.0
+1764379967 source:c:\users\pc\desktop\parcial_lista\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"parcial.h"
+
+1764368964 c:\users\pc\desktop\parcial_lista\parcial.h
+
+1764379987 source:c:\users\pc\desktop\parcial_lista\parcial.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"parcial.h"
+
+1764433094 source:c:\users\pc\desktop\recuperatorio\parcial_lista\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"parcial.h"
+
+1764433111 c:\users\pc\desktop\recuperatorio\parcial_lista\parcial.h
+
+1764434581 source:c:\users\pc\desktop\recuperatorio\parcial_lista\parcial.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"parcial.h"
+
