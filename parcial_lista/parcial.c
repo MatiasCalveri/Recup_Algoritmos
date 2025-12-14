@@ -98,7 +98,8 @@ void lista_ordenar(tLista* pLis, int(*cmp)(const void*, const void *))
             tLista *q = pri;
             tNodo *aux = (*pLis)->nSig;
 
-            (*pLis)->nSig = aux->nSig;
+            (*pLis)->nSig = aux->nSig; ///Este es el desplazamiento para la primera condicion del while, muevo
+                                       ///el tercer nodo, porque los dos anteriores ya los roté
 
             while(cmp((*q)->info, aux->info)>=0) ///compara para buscar donde hacer la insersion
                 q = &(*q)->nSig;
@@ -203,3 +204,19 @@ void mostrar_alumno(const void* elem)
     printf("---------------------------\n");
 }
 
+void lista_invertir(tLista *p)
+{
+    tNodo *ant = NULL;
+    tNodo *act = *p;
+    tNodo *sig;
+
+    while (act)
+    {
+        sig = act->nSig;   // guardo el siguiente
+        act->nSig = ant;   // invierto el enlace
+        ant = act;        // avanzo ant
+        act = sig;        // avanzo act
+    }
+
+    *p = ant;  // actualizar el puntero al inicio
+}

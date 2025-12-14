@@ -3,6 +3,34 @@
 CARGA DE ARBOL
 
 *******/
+int insertarArbolBinBusq(tArbolBinBusq *p, const void *d, unsigned tam, int (*cmp)(const void *, const void *))
+{
+    tNodoArbol *nue;
+    int rc;
+
+    while (*p)
+    {
+        rc = cmp(d, (*p)->info);
+        if (rc < 0)
+            p = &(*p)->izq;
+        else if (rc > 0)
+            p = &(*p)->der;
+        else
+            return CLA_DUP;
+    }
+
+    if (!reservarMemoriaNodo(nue, sizeof(tNodoArbol), nue->info, tam))
+        return SIN_MEM;
+
+    nue->tamInfo = tam;
+    memcpy(nue->info, d, tam);
+    nue->der = nue->izq = NULL;
+
+    *p = nue;
+
+    return TODO_BIEN;
+}
+
 
 int CargarArchivoBinOrdenadoAbiertoArolBinBusq(tArbolBinBusq* pAr, FILE* pf, size_t tamInfo)
 {
@@ -164,9 +192,8 @@ int ArbolEsCompletoHastaNivelBin(const tArbolBinBusq* pAr, int n)
 /*******
 
 ELIMINAR ELEMENTO DE UN ARBOL
-
+ESTA VA PARA EL FINAL
 *******/
-
 
 int arbol_eliminar_elemento(tArbolBinBusq* pAr, void* pd, size_t tam)
 {
@@ -226,13 +253,49 @@ tNodoArbol** arbol_buscar_raiz(const tArbolBinBusq *pAr, void *pd, size_t tamEle
         else
             pAr = &(*pAr)->der;
 
-        if(!*pAr)
-            printf("NO SE ENCUENTRA EL ELEMENTO");
+        
     }
-
+	if(!*pAr)
+       printf("NO SE ENCUENTRA EL ELEMENTO");
     return (tNodoArbol**)pAr;
 }
 
+///LO MISMO PERO BUSCA RECURSIVO
+tNodoArbol **buscarRecNodoArbolBinBusq(const tArbolBinBusq *p,
+                                       const void *d,
+                                       int (*cmp)(const void*, const void *))
+{
+    int rc;
+
+    if (!*p)
+        return NULL;
+
+    rc = cmp(d, (*p)->info);
+    if (rc != 0)
+    {
+        if (rc < 0)
+            return buscarRecNodoArbolBinBusq(&(*p)->izq, d, cmp);
+        else
+            return buscarRecNodoArbolBinBusq(&(*p)->der, d, cmp);
+    }
+
+    return (tNodoArbol **)p;
+}
+
+
+tNodoArbol** BuscarNodoMin(Arbol* pAr)
+{
+    while((*pAr)->izq)
+        pAr = &(*pAr)->izq;
+    return pAr;
+}
+
+tNodoArbol** BuscarNodoMax(Arbol* pAr)
+{
+    while((*pAr)->der)
+        pAr = &(*pAr)->der;
+    return (tNodoArbol**)pAr;
+}
 
 
 /*******

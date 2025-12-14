@@ -22,6 +22,21 @@ int lista_llenar_elementos(tLista* pLis, const char* pathArch, size_t tamElem)
 }
 
 
+int lista_vaciar(tLista* pLis)
+{
+	
+	while(*pLis)
+	{
+		tNodo* elim = *pLis;
+		*pLis = &(*pLis)->nSig;
+		free(elim);
+	}
+	
+}
+
+
+
+
 int lista_insertar_elemento(tLista* pLis, FILE* fp, size_t tamElem,
                             int(*leer)(void**, void*, size_t))
 {
@@ -75,6 +90,29 @@ void lista_mostrar(const tLista* pLis, void (*mostrarElem)(const void*))
 }
 
 
+
+
+int lista_poner_en_orden(tLista *pLis, const void *d, size_t tamElem,  int (*comparar)(const void *, const void *))
+{
+    tNodo *nue;
+    while(*pLis && comparar((*pLis)->info, d) < 0)
+        pLis = &(*pLis)->nSig;
+
+    nue = (tNodo*)malloc(sizeof(tNodo)+tamElem);
+    if(!nue)
+    {
+        free(nue);
+        return ERROR;
+    }
+    nue->info = nue + 1;
+    memcpy(nue->info, d, tamElem);
+    nue->tamInfo = tamElem;
+    nue->nSig = *pLis;
+    *pLis = nue;
+    return TODO_OK;
+}
+
+
 void lista_ordenar(tLista* pLis, int(*cmp)(const void*, const void *))
 {
 
@@ -102,6 +140,55 @@ void lista_ordenar(tLista* pLis, int(*cmp)(const void*, const void *))
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void archivo_crear_alumnos(const char* pathAlum)
 {
     FILE* fp;

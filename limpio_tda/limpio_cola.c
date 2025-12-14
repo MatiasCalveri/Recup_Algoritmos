@@ -56,6 +56,7 @@ int colaSacarElemento(tCola* pCola, void* dato, unsigned cantBytes)
 {
     tNodo* aux = pCola->nIni;
     if(!aux)
+		
     {
         return 0;
     }
@@ -77,3 +78,40 @@ int colaVacia(tCola* pCola)
 }
 
 
+///ARMANDO TODO PARA EL FINAL
+int cola_poner_elemento(tCola* pCol, void* pd, size_t tamDato)
+{
+    tNodo* nue = (tNodo*)malloc(sizeof(tNodo)+tamDato);
+    if(!nue)
+    {
+        return SIN_MEM;
+    }
+
+    nue->info = nue + 1;
+    memcpy(nue->info, pd, tamDato);
+    nue->tamInfo = tamDato;
+    if(!pCol->nPri)
+	{
+		pCol->nPri = nue;
+	}else
+	{         
+	pCol->nUlt->nSig = nue;
+    }
+	
+    pCol->nUlt = nue;
+    return TODO_OK;
+}
+
+
+int cola_sacar_elemento(tCola* pCol, void* pd, size_t tamDato)
+{
+	tNodo* elim = pCol->nPri;
+	memcpy(pd, elim->info, tamDato);
+	pCol->nPri = elim->nSig;
+	free(elim);
+	
+	if(pCol->nPri == NULL)
+		pCol->nUlt = NULL;
+	
+	return TODO_OK;
+}

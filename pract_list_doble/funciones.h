@@ -25,4 +25,7 @@ void lista_ordenar_lista_doble(tListaDoble* pLis, int(*cmp)(const void*,const vo
 int cmp_ints(const void* a, const void* b);
 int poner_ord_lista(tListaDoble* pl, const void* pd, size_t tam, int (*cmp)(const void*, const void*));
 
+
+void ordenarD(tListaDoble* pLis, int (*comparar)(const void *, const void *));
+
 #endif // FUNCIONES_H_INCLUDED

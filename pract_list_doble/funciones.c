@@ -120,6 +120,53 @@ void lista_ordenar_lista_doble(tListaDoble* pLis, int(*cmp)(const void*,const vo
 
 }
 
+void ordenarD(tListaDoble* pLis, int (*comparar)(const void *, const void *))
+{
+    if(!*pLis || !(*pLis)->nSig)
+        return;  // Lista vacía o de 1 elemento
+
+    tListaDoble* pri = pLis;
+
+    while((*pLis)->nSig)
+    {
+        if(comparar((*pLis)->info, (*pLis)->nSig->info) < 0)
+        {
+            tNodo* aux = (*pLis)->nSig;
+             tListaDoble* q = pri;
+            // Sacar aux de la lista
+            (*pLis)->nSig = aux->nSig;
+
+            if(aux->nSig)
+                aux->nSig->nAnt = *pLis;
+
+            // Buscar dónde insertar aux
+
+            while(comparar((*q)->info, aux->info) >=0)
+                q = &(*q)->nSig;
+
+            // Insertar aux antes de *q
+            aux->nSig = *q;
+            aux->nAnt = (*q)->nAnt;
+
+            if(*q)
+                (*q)->nAnt = aux;
+
+            *q = aux;
+
+            // Si aux se insertó al principio, actualizar pri
+            if(q == pri)
+                pri = q;
+        }
+        else
+        {
+            pLis = &(*pLis)->nSig;   // avanzar normalmente
+        }
+    }
+}
+
+
+
+
 int cmp_ints(const void* a, const void* b)
 {
     int ia = *(const int*)a;
@@ -139,7 +186,7 @@ int poner_ord_lista(tListaDoble* pl, const void* pd, size_t tam, int (*cmp)(cons
     tNodo* ant = NULL;
 
     // Buscar posición de inserción
-    while(act && cmp(pd, act->info) > 0)
+    while(act && cmp(pd, act->info) < 0)
     {
         ant = act;
         act = act->nSig;

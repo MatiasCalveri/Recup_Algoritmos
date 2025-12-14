@@ -216,3 +216,85 @@ int poner_ord_lista(tLista* pl, const void* pd, size_t tam, int (*cmp)(const voi
     nue->tamInfo = tam;
     return 1;
 }
+
+
+
+int poner_ord_lista(tLista* pl, const void* pd, size_t tam,
+                    int (*cmp)(const void*, const void*))
+{
+    tNodo* act = *pl;
+    tNodo* ant = NULL;
+    tNodo* nue;
+
+    while(act && cmp(pd, act->info) > 0)
+    {
+        ant = act;
+        act = act->nSig;
+    }
+
+    // Duplicado
+    if(act && cmp(pd, act->info) == 0)
+        return -1;
+
+    nue = malloc(sizeof(tNodo) + tam);
+    if(!nue)
+        return -2;
+
+    nue->info = nue + 1;
+    memcpy(nue->info, pd, tam);
+    nue->tamInfo = tam;
+
+    nue->nAnt = ant;
+    nue->nSig = act;
+
+    if(ant)
+        ant->nSig = nue;
+    else
+        *pl = nue;          // inserta al inicio
+
+    if(act)
+        act->nAnt = nue;    // inserta antes de act
+
+    return 1;
+}
+
+int lista_insertar_ordenado(tLista* pl, const void* pd, size_t tam,int (*cmp)(const void*, const void*))
+{
+    tNodo* act = *pl;
+    tNodo* ant = NULL;
+    tNodo* nue;
+
+    // Buscar punto de inserción
+    while(act && cmp(pd, act->info) > 0)
+    {
+        ant = act;
+        act = act->nSig;
+    }
+
+    // Duplicado
+    if(act && cmp(pd, act->info) == 0)
+        return 0;
+
+    // Crear nodo
+    nue = malloc(sizeof(tNodo) + tam);
+    if(!nue)
+        return -1;
+
+    nue->info = nue + 1;
+    memcpy(nue->info, pd, tam);
+    nue->tamInfo = tam;
+
+    // Enganches
+    nue->nAnt = ant;
+    nue->nSig = act;
+
+    if(ant)
+        ant->nSig = nue;
+    else
+        *pl = nue;          // nuevo primero
+
+    if(act)
+        act->nAnt = nue;   // si no era el último
+
+    return 1;
+}

@@ -224,12 +224,6 @@ void mostrar_verdura(void* pd)
 
 
 
-
-
-
-
-
-
 void archivo_mostrar(const char* pathBin)
 {
     FILE* fpBin;
